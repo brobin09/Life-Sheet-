@@ -19,11 +19,59 @@ Then open `http://localhost:3000`.
 npx tsx --test src/domain/scoring.test.ts
 ```
 
-## Deploy on GitHub Pages
+## Deploy Live
 
-GitHub Pages cannot execute raw `.tsx` files directly from the repository root—it must serve the compiled `dist/` bundle. This repository includes a ready-to-use GitHub Actions workflow (`.github/workflows/deploy-pages.yml`):
+### Option 1: GitHub Pages (via GitHub Web UI)
 
-1. Push the latest changes (including `.github/workflows/deploy-pages.yml` and `vite.config.ts`) to your `main` branch.
-2. On GitHub, open your repository **Settings → Pages**.
-3. Under **Build and deployment → Source**, choose **GitHub Actions**.
-4. Wait ~1 minute for the **Deploy Life Statements to GitHub Pages** workflow in the **Actions** tab to finish, then open the published URL shown there.
+Because GitHub blocks external OAuth apps from pushing files inside `.github/workflows/`, add the workflow file directly in your repository on GitHub.com:
+
+1. In your GitHub repo, click **Add file → Create new file**.
+2. Name the file `.github/workflows/deploy-pages.yml` and paste:
+
+```yaml
+name: Deploy Life Statements to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+      - id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+3. Commit the new file on GitHub.com.
+4. Go to **Settings → Pages** and set **Source** to **GitHub Actions**.
+5. Wait ~1 minute for the **Actions** tab run to finish, then open the published URL.
+
+### Option 2: Vercel or Netlify (No Workflow Needed)
+
+Import your GitHub repository in Vercel or Netlify with:
+- **Build command**: `npm run build`
+- **Output directory**: `dist`
