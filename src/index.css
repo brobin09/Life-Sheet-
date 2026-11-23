@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-paper: #FBF9F5;
+  --color-linen: #F4F0E8;
+  --color-linen-deep: #ECE6DA;
+  --color-rule: #E2DCD0;
+  --color-rule-strong: #CEC6B6;
+  --color-ink: #1C1917;
+  --color-ink-soft: #44403C;
+  --color-muted: #686259;
+  --color-forest: #1B4332;
+  --color-forest-hover: #143326;
+  --color-forest-tint: #ECF2EE;
+  --color-ochre: #9A6700;
+  --color-ochre-tint: #FBF4E4;
+  --color-rust: #9A3412;
+  --color-rust-tint: #FAF0EC;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  h1, h2, h3, .font-editorial {
+    font-family: var(--font-serif);
+    text-wrap: balance;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  @page {
+    margin: 0.6in;
+    size: letter portrait;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-break-inside-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
