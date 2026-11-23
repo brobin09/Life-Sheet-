@@ -1,6 +1,0 @@
-{
-  "name": "Life Statements",
-  "description": "A local-first personal ledger mapping your life to a Balance Sheet, Income Statement, and Time & Energy Cash Flow with transparent 0-100 scoring.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
