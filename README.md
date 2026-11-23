@@ -16,7 +16,7 @@ Then open `http://localhost:3000`.
 ## Run Scoring Engine Tests
 
 ```bash
-npx tsx --test src/domain/scoring.test.ts
+npm test
 ```
 
 ## Deploy Live
